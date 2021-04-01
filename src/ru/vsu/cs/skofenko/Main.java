@@ -6,18 +6,33 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        Integer[] arr = {9, 5, 0, 4, 3, 6, 2, 1, 7, 8};
+        Integer[] arr = newArr((int)1e8);
         Integer[] arr2 = arr.clone();
+        Integer[] arr3 = arr.clone();
 
         long startTime = System.currentTimeMillis();
-        SmoothSort.sort(arr);
+        SmoothSort.sort(arr,0,arr.length-1);
         long endTime = System.currentTimeMillis();
-        System.out.println("SmoothSort:"+ (endTime - startTime));
+        System.out.println("Wikibooks SmoothSort : "+ (endTime - startTime));
 
         startTime = System.currentTimeMillis();
         Arrays.sort(arr2);
         endTime = System.currentTimeMillis();
-        System.out.println("Timsort:"+ (endTime - startTime));
+        System.out.println("MySmoothSort: "+ (endTime - startTime));
+
+        startTime = System.currentTimeMillis();
+        Arrays.sort(arr3);
+        endTime = System.currentTimeMillis();
+        System.out.println("Timsort: "+ (endTime - startTime));
+
+        boolean is = true;
+        for (int i = 0; i < arr.length; i++) {
+            if (!arr2[i].equals(arr3[i])) {
+                is = false;
+                break;
+            }
+        }
+        System.out.println(is);
     }
 
     private static Integer[] newArr(int size) {
@@ -25,6 +40,14 @@ public class Main {
         final Random RND = new Random();
         for (int i = 0; i < arr.length; i++) {
             arr[i] = RND.nextInt();
+        }
+        return arr;
+    }
+
+    private static Integer[] newSortedArr(int size) {
+        Integer[] arr = new Integer[size];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i;
         }
         return arr;
     }
