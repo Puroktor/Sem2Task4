@@ -6,7 +6,7 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        Integer[] arr = newArr((int)1e8);
+        Integer[] arr = newArr((int)1e6);
         Integer[] arr2 = arr.clone();
         Integer[] arr3 = arr.clone();
 

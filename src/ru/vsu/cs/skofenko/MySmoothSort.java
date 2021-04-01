@@ -15,8 +15,7 @@ class MySmoothSort {
             if ((mantissa & 3) == 3 || (mantissa & 5) == 5) {
                 //объединяем L[n-1] и L[n] в L[n+1]
                 mantissa >>>= 2;
-                p += mantissa & 1;
-                p += 2;
+                p += mantissa & 1 + 2;
                 mantissa |= 1;
                 shiftDown(data, i, p);
             } else {
@@ -33,8 +32,7 @@ class MySmoothSort {
         }
 
         for (int i = data.length - 1; i > 0; i--) {
-            int toSwapWith = i;
-            int pj = 0;
+            int toSwapWith = i, pj = 0;
             int temp = mantissa;
             int j = 0;
             int index = i;
@@ -50,7 +48,6 @@ class MySmoothSort {
                 temp >>>= 1;
                 j++;
             }
-
             if (toSwapWith != i) {
                 swap(data, toSwapWith, i);
                 shiftDown(data, toSwapWith, pj);
@@ -58,7 +55,7 @@ class MySmoothSort {
             mantissa &= ~1; //меняем последнюю цифру в мантиссе на 0;
             if (p == 0) {
                 int z = Integer.numberOfTrailingZeros(mantissa);
-                mantissa >>= z;
+                mantissa >>>= z;
                 p += z;
             } else {
                 for (int k = 0; k < 2; k++) {
