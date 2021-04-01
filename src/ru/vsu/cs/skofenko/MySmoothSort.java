@@ -17,7 +17,7 @@ class MySmoothSort {
                 mantissa >>>= 2;
                 p += mantissa & 1 + 2;
                 mantissa |= 1;
-                shiftDown(data, i, p);
+                siftDown(data, i, p);
             } else {
                 if (p == 0 && (mantissa & 1) == 1) {
                     //L[0] уже занято
@@ -50,7 +50,7 @@ class MySmoothSort {
             }
             if (toSwapWith != i) {
                 swap(data, toSwapWith, i);
-                shiftDown(data, toSwapWith, pj);
+                siftDown(data, toSwapWith, pj);
             }
             mantissa &= ~1; //меняем последнюю цифру в мантиссе на 0;
             if (p == 0) {
@@ -67,7 +67,7 @@ class MySmoothSort {
         }
     }
 
-    private static <T extends Comparable<T>> void shiftDown(T[] data, int head, int p) {
+    private static <T extends Comparable<T>> void siftDown(T[] data, int head, int p) {
         while (p > 1) {
             int right = head - 1;
             int left = head - 1 - L[p - 2]; //ибо количество элементов = числу Леонардо
