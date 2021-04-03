@@ -9,26 +9,28 @@ class MySmoothSort {
             866988873};
 
     public static <T extends Comparable<T>> void sort(T[] data) {
-        int mantissa = 0;
-        int p = 0;
-        for (int i = 0; i < data.length; i++) {
-            if ((mantissa & 3) == 3 || (mantissa & 5) == 5) {
+        //состояние храним в виде порядка и мантиссы
+        // сначала заполняем L[1], только потом L[0]
+        int mantissa = 1;
+        int p = 1;
+        for (int i = 1; i < data.length; i++) {
+            if ((mantissa & 3) == 3) {
                 //объединяем L[n-1] и L[n] в L[n+1]
                 mantissa >>>= 2;
-                p += mantissa & 1 + 2;
-                mantissa |= 1;
+                p += 2;
                 siftDown(data, i, p);
             } else {
-                if (p == 0 && (mantissa & 1) == 1) {
-                    //L[0] уже занято
-                    mantissa |= 2;
+                if (p == 1) {
+                    //в L[0]
+                    mantissa <<= 1;
+                    p--;
                 } else {
-                    //L[0] свободно
-                    mantissa <<= p;
-                    mantissa |= 1;
-                    p = 0;
+                    //в L[1]
+                    mantissa <<= p - 1;
+                    p = 1;
                 }
             }
+            mantissa |= 1;
         }
 
         for (int i = data.length - 1; i > 0; i--) {
@@ -39,11 +41,11 @@ class MySmoothSort {
             //ищем максимальную вершину у куч
             while (temp != 0) {
                 if ((temp & 1) == 1) {
-                    index -= L[p + j];
                     if (data[index].compareTo(data[toSwapWith]) > 0) {
                         toSwapWith = index;
                         pj = p + j;
                     }
+                    index -= L[p + j];
                 }
                 temp >>>= 1;
                 j++;
@@ -53,16 +55,14 @@ class MySmoothSort {
                 siftDown(data, toSwapWith, pj);
             }
             mantissa &= ~1; //меняем последнюю цифру в мантиссе на 0;
-            if (p == 0) {
+            if (p > 1) {
+                mantissa <<= 2;
+                mantissa |= 3;
+                p -= 2;
+            } else {
                 int z = Integer.numberOfTrailingZeros(mantissa);
                 mantissa >>>= z;
                 p += z;
-            } else {
-                for (int k = 0; k < 2; k++) {
-                    mantissa <<= 1;
-                    mantissa |= 1;
-                    p--;
-                }
             }
         }
     }

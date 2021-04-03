@@ -6,24 +6,24 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
-        Integer[] arr = newArr((int)1e6);
+        Integer[] arr = newArr((int)(1e6)); //в моей реализации не больше 7*1e6
         Integer[] arr2 = arr.clone();
         Integer[] arr3 = arr.clone();
 
         long startTime = System.currentTimeMillis();
-        SmoothSort.sort(arr,0,arr.length-1);
+        SmoothSort.sort(arr, 0, arr.length - 1);
         long endTime = System.currentTimeMillis();
-        System.out.println("Wikibooks SmoothSort : "+ (endTime - startTime));
+        System.out.println("Wikibooks SmoothSort : " + (endTime - startTime));
 
         startTime = System.currentTimeMillis();
-        Arrays.sort(arr2);
+        MySmoothSort.sort(arr2);
         endTime = System.currentTimeMillis();
-        System.out.println("MySmoothSort: "+ (endTime - startTime));
+        System.out.println("MySmoothSort: " + (endTime - startTime));
 
         startTime = System.currentTimeMillis();
         Arrays.sort(arr3);
         endTime = System.currentTimeMillis();
-        System.out.println("Timsort: "+ (endTime - startTime));
+        System.out.println("Timsort: " + (endTime - startTime));
 
         boolean is = true;
         for (int i = 0; i < arr.length; i++) {
@@ -39,7 +39,7 @@ public class Main {
         Integer[] arr = new Integer[size];
         final Random RND = new Random();
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = RND.nextInt();
+            arr[i] = RND.nextInt(30);
         }
         return arr;
     }
